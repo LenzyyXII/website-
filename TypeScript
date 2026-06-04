@@ -1,0 +1,52 @@
+// frontend/src/components/Sidebar.tsx
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { LayoutDashboard, ShoppingBag, CreditCard, Users, Settings, LogOut } from "lucide-react";
+
+const menuItems = [
+  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { name: "Produk", href: "/admin/produk", icon: ShoppingBag },
+  { name: "Transaksi", href: "/admin/transaksi", icon: CreditCard },
+  { name: "Pengguna", href: "/admin/users", icon: Users },
+  { name: "Pengaturan", href: "/admin/settings", icon: Settings },
+];
+
+export default function Sidebar() {
+  const pathname = usePathname();
+
+  return (
+    <div className="w-64 h-screen bg-[#121214] border-r border-[#1e1e22] text-zinc-400 flex flex-col justify-between p-4 fixed left-0 top-0">
+      <div>
+        <div className="flex items-center gap-2 px-2 py-4 text-white font-bold text-xl tracking-wider">
+          <span className="text-[#6366f1]">Digi</span>Mart<span className="text-xs bg-[#6366f1]/20 text-[#6366f1] px-1.5 py-0.5 rounded ml-1">Admin</span>
+        </div>
+        
+        <nav className="mt-8 space-y-1">
+          {menuItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  isActive 
+                    ? "bg-[#6366f1]/10 text-[#6366f1] border-l-4 border-[#6366f1]" 
+                    : "hover:bg-zinc-800/50 hover:text-white"
+                }`}
+              >
+                <item.icon className="w-5 h-5" />
+                {item.name}
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+
+      <button className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium hover:bg-red-500/10 hover:text-red-400 transition-all">
+        <LogOut className="w-5 h-5" />
+        Keluar
+      </button>
+    </div>
+  );
+}
